@@ -55,3 +55,4 @@ INSERT INTO dicTypes VALUES(100,'mecab-ipadic-NEologd mecab-user-dict-seed.20200
 ```data_plot.py```はデータを可視化します。推奨モードで実行したサンプルを示します。  
 ![cm](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/cm.png?raw=true)
 ![rate](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/rate.png?raw=true)
+単語終始比率とは「ある文字Xについて、Xで終わる単語数÷Xで始まる単語数」です。高いほど＊攻めをする勝ちがあると言えます。る攻めの強さは科学的な裏打ちがあります。
