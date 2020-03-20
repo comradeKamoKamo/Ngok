@@ -2,3 +2,5 @@ data/dic
 data/wikipedia
 *.db
 .vscode
+*.pyc
+data/word2vec
