@@ -24,6 +24,11 @@ if __name__=="__main__":
     labels.remove("ヰ")
     cm = np.delete(cm, obj=trashes, axis=1)
     cm = np.delete(cm, obj=trashes, axis=0)
+    np.save("cm_clean.npy",cm)
+    trashes = sorted(trashes)
+    for i, t in enumerate(trashes):
+        chars.pop(t - i)
+    pickle.dump(chars, open("endList_clean.pickle","wb"))
 
     font_path = "/usr/share/fonts/windows/meiryo.ttc"
     font_prop = FontProperties(fname=font_path)
