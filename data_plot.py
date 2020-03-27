@@ -5,7 +5,14 @@ import matplotlib
 from matplotlib.font_manager import FontProperties
 from matplotlib.colors import Normalize
 
+# now import pylustrator
+import pylustrator
+
 if __name__=="__main__":
+    
+    
+    # activate pylustrator
+    pylustrator.start()
 
     # 単語ヒートマップ
 
@@ -53,4 +60,53 @@ if __name__=="__main__":
     plt.figure()
     plt.bar(range(len(labels)), rates, tick_label=labels)
     plt.title("しりとり　単語終始比率")
+    #% start: automatic generated code from pylustrator
+    plt.figure(2).ax_dict = {ax.get_label(): ax for ax in plt.figure(2).axes}
+    import matplotlib as mpl
+    plt.figure(2).axes[0].patches[0].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[1].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[2].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[3].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[4].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[5].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[6].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[7].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[8].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[9].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[10].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[11].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[12].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[13].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[14].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[15].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[16].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[17].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[18].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[19].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[20].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[21].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[22].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[23].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[24].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[25].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[26].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[27].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[28].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[29].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[30].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[31].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[32].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[33].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[34].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[35].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[36].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[37].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[38].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[39].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[40].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[41].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[42].set_facecolor("#ff0000")
+    plt.figure(2).axes[0].patches[43].set_facecolor("#ff0000")
+    plt.figure(2).text(0.5, 0.5, 'New Text', transform=plt.figure(2).transFigure)  # id=plt.figure(2).texts[0].new
+    #% end: automatic generated code from pylustrator
     plt.show()

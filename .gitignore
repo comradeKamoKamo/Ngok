@@ -4,3 +4,4 @@ data/wikipedia
 .vscode
 *.pyc
 data/word2vec
+*.tmp
