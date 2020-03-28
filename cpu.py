@@ -73,13 +73,17 @@ def cpu(wordlog, c, cm, endList, model) :
 
     return wordlog, cm
 
-
-if __name__=="__main__" :
+def data_load():
     cm = np.load("output_21930/cm_clean.npy")
     endList = pickle.load(open("output_21930/endList_clean.pickle", "rb"))
     con = sqlite3.connect("data/wordset.db")
     c = con.cursor()
     model = word2vec.Word2Vec.load("data/word2vec/jawiki.model")
+    return cm, endList, con, c, model
+
+
+if __name__=="__main__" :
+    cm, endList, con, c, model = data_load()
 
     wordlog = [("しりとり","シリトリ")]
     print("しりとり/シリトリ")

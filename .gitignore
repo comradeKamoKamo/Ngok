@@ -5,3 +5,4 @@ data/wikipedia
 *.pyc
 data/word2vec
 *.tmp
+apikey.sh
