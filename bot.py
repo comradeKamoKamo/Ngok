@@ -6,6 +6,7 @@ import re
 import copy
 import logging
 import requests
+import pickle
 import xml.etree.ElementTree as ET
 
 import tweepy
@@ -19,6 +20,12 @@ def main():
 
     api = get_api()
     players = []
+    try:
+        old_players = pickle.load(open("players.pickle","rb"))
+        players = old_players
+    except Exception:
+        pass
+    last_save_time = time.time()
     while True:
         try:
             replies = api.mentions_timeline(count=1, tweet_mode="extended")
@@ -28,11 +35,12 @@ def main():
             continue
         for reply in replies:
             text = get_display_text(reply)
+            if reply.author.screen_name == "_ngok_": continue # 自己ループを避ける
             logging.info(f"@{reply.author.screen_name} : {text}")
             
             # ユーザーデータ取得
             now_player = [p for p in players if p.user_id == reply.author.id]
-            if not now_player:
+            if not now_player :
                 # 未知のアカウント
                 now_player = [player(reply.author.id, reply.author.screen_name, cm)]
                 players.append(now_player[0])
@@ -123,7 +131,10 @@ def main():
                     tweet += "　※読みが正常に推定できませんでした。単語（タンゴ）の形で明示的に指定できます。"
                 reply_to_status(api, tweet, now_player.status_id)                
         time.sleep(13)      
-    pass
+        if time.time() - last_save_time > 60*60:
+            # 1時間経過したら保存
+            pickle.dump(players, open("players.pickle","wb"))
+            last_save_time = time.time()
 
 def get_kana_from_yahoo(text):
     client_id = os.environ.get("YAHOO_ID")
