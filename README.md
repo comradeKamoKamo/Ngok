@@ -3,7 +3,7 @@
 # 単語の分析
 　そもそも日本語の単語には、先頭にきやすい文字や終端にきやすい文字があるはずです。辞書データを用いてそれを分析します。
 ## 辞書準備
-　MeCab用の辞書を利用します。IPA辞書と、[mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd)を中の人は使いました。しりとりは名詞しか使えませんから、名詞(Noun)とかかれた辞書ファイルを使うと良いでしょう。neologdはseedディレクトリの中のファイルを解答すると生辞書です。  
+　MeCab用の辞書を利用します。IPA辞書と、[mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd)を中の人は使いました。しりとりは名詞しか使えませんから、名詞(Noun)とかかれた辞書ファイルを使うと良いでしょう。
  はじめに、NgokではSQLiteで単語データを管理するので```data/db_init.sql```からDBを作成します。dicTypesテーブルにはどの辞書ファイルを利用したかを書き込んでおくと便利です。
 ```
 INSERT INTO dicTypes VALUES(1,'IPADIC Noun.csv 名詞一般');
