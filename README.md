@@ -3,7 +3,7 @@
 # 単語の分析
 　そもそも日本語の単語には、先頭にきやすい文字や終端にきやすい文字があるはずです。辞書データを用いてそれを分析します。
 ## 辞書準備
-　MeCab用の辞書を利用します。IPA辞書と、[mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd)を中の人は使いました。しりとりは名詞しか使えませんから、名詞(Noun)とかかれた辞書ファイルを使うと良いでしょう。neologdはseedディレクトリの中のファイルを解答すると生辞書です。  
+　MeCab用の辞書を利用します。IPA辞書と、[mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd)を中の人は使いました。しりとりは名詞しか使えませんから、名詞(Noun)とかかれた辞書ファイルを使うと良いでしょう。
  はじめに、NgokではSQLiteで単語データを管理するので```data/db_init.sql```からDBを作成します。dicTypesテーブルにはどの辞書ファイルを利用したかを書き込んでおくと便利です。
 ```
 INSERT INTO dicTypes VALUES(1,'IPADIC Noun.csv 名詞一般');
@@ -53,6 +53,14 @@ INSERT INTO dicTypes VALUES(100,'mecab-ipadic-NEologd mecab-user-dict-seed.20200
 　`cm.npy`と`endList.pickle`が出力されます。前者は`[始端文字のインデックス,終端文字のインデックス]`で単語数が得られます。後者は少しややこしく、文字種の長さのリストで（.npyのインデックスはこのリストのインデックスと一緒）。各要素の`[0]`に「文字セット」`[1]`に「実際の終端型リスト」が入っています。意味がわからないと思います。説明力がないのでなんとも言えません。
 # 可視化
 ```data_plot.py```はデータを可視化します。推奨モードで実行したサンプルを示します。  
-![cm](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/cm.png?raw=true)
-![rate](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/rate.png?raw=true)
-単語終始比率とは「ある文字Xについて、Xで終わる単語数÷Xで始まる単語数」です。高いほど＊攻めをする勝ちがあると言えます。る攻めの強さは科学的な裏打ちがあります。
+![cm](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/cm.png?raw=true)  
+![rate](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/rate.png?raw=true)  
+単語終始比率とは「ある文字Xについて、Xで終わる単語数÷Xで始まる単語数」です。高いほど＊攻めをする勝ちがあると言えます。る攻めの強さは科学的な裏打ちがあります。  
+また、```data_plot.py```は`cm.npy`と`endList.pickle`から必要でないゴミデータを削除した`cm_clean.npy`と`endList_clean.pickle`を出力します。以降はこれらを用います。
+# 戦略シミュレーション
+```simulator.py```はしりとりをシミュレーションできます。単語の数に基づいてシミュレーションします。戦術関数として、「攻撃型」「中間型」「防御型」「ランダム」を作成しました。結果は「攻撃型」が最も強いことがわかりました。「ランダム」と「ランダム」の結果からは、先行後攻は戦略的に優位な差はないこともわかりました。  
+「攻撃型」戦略は単語終始比率に基づいて、ガンガン攻めます。防御型は「しり」で終わる単語がすくない頭文字が「しり」になるように返します。「中間型」は攻められると防御型に移行する攻撃型です。攻撃型>中間型>防御型>ランダム勝負が決まります。
+# CPU「Ngok」
+```cpu.py```は対人CPUプログラムです。「攻撃型」戦略関数に加えて、word2vecアルゴリズムを用いて、「言われた単語に近い単語」で返すことで相手のボキャブラリーを破壊することを目的としています。しかし、攻撃型戦略が強すぎて、効果を実感できませんが。
+# bot.py
+これはTwitterBotとして、`cpu.py`を提供します。
