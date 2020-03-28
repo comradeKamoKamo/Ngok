@@ -1,6 +1,38 @@
-# Ngok Twitter Bot System
+# ンゴック君 - Ngok Twitter Bot System
+　ンゴック君（[@_ngok_](https://twitter.com/_ngok_))はTwitterBotとして動くしりとりCPUです。Ngokは科学的に強いと言えるしりとりCPUを作ろうとしてつくられたCPUです。Twitterを通じて、Ngokと対戦できます。
+# 遊び方
+1. 「@_ngok_」に「しりとり」という言葉を含めてメンションします。
+2. ンゴック君が「リ」から始まる言葉で返信しますので、その返信にさらに返信していくことでしりとりができます。
+3. ンゴック君が何も思いつかなくなるか、あなたが「ン」で終わる言葉を返すと終了します。
+## 細かいルール
+ - 濁音・半濁音はついてもつかなくてもかまいません。e.g.) りんご→神戸→ペンチ→ヂヂリウム
+ - ヲとオは交換できます。e.g.) ラヂヲ→折り紙
+ - 末尾長音は無視します。e.g.) ハッカー→カラス
+ - 小書き文字で終わる場合は、小書き文字を大文字にします。e.g.) 般若→ヤンバルクイナ
+ - 同音異義語は禁止します。同じヨミの言葉は1度しか使えません。
+## ルール違反について
+　ンゴック君はルール違反を指摘しません。すでに使われた言葉でも、存在しない言葉でも、しりを取れていない単語でもちゃんと返してくれます。自制心を持ってプレイしてください。逆に、これを利用して、先行後攻を入れ替えたりもできます。
+## ヨミガナの明示的指定
+　ンゴック君は辞書データやYahooのルビ振りAPIを用いて、ヨミガナを推定できます。しかしながら、推定できない場合や、間違った推定を行うことがあります。そのようなことを防ぐために、ヨミガナを明示的に指定できます。  
+ ```単語（タンゴ）```  
+ で指定します。括弧は全角、ヨミガナはカタカナと長音記号のみが利用できます。また、括弧を複数利用したり、括弧を含む単語は正常に処理されません。単語とヨミの間に、余計なスペースなど入れないでください。
+# ンゴック君の戦い方
+## 1.単語
+辞書データには、IPA辞書と[mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd)を使っています。特に後者はリアルタイムにネット上の情報を更新し、最新の単語を収録する最先端の辞書データです。
+## 2.攻め戦略
+上記の辞書データから得た全単語の「始端文字」と「終端文字」を調べます。すると、以下のようなデータが得られます。  
+![cm](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/cm.png?raw=true)  
+（※5000で頭打ちさせてるだけで、実際は5000以上の単語もあります）  
+これは、Xで終わり、Yで始まる単語の数を示します。ここで、X/Yの値が大きい文字は有利な文字と言えます、なぜなら、「攻めやすく、相手は返しづらい」からです。これを各文字ごとに計算すると、  
+![rate](https://github.com/comradeKamoKamo/Ngok/blob/dev/output_21930/rate.png?raw=true)  
+となります。このグラフの数字が高い文字順に攻撃していくのが有利な戦略と言えます。（ル→ウ→...)
+## 3.類似単語で返す
+ンゴック君は最新のAIテクノロジ的なword2vecというテクノロジを採用し、相手が言ってきた言葉に類似する言葉で返せるように努力します。同じようなジャンルの言葉で返せれば、相手のボキャブラリーを破壊できます。また、word2vecが利用できない場合は、なるべく短い単語で返します。
+# Other Information
+詳しい技術情報はREADME.mdをご覧ください。→[リポジトリ](https://github.com/comradeKamoKamo/Ngok/)
+
 <!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
   <a href="https://developer.yahoo.co.jp/about">
   <img src="https://s.yimg.jp/images/yjdn/common/yjdn_attbtn1_250_34.gif" width="250" height="34" title="Webサービス by Yahoo! JAPAN" alt="Webサービス by Yahoo! JAPAN" border="0" style="margin:15px 15px 15px 15px"></a>
-<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->  
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet --><br>
 NgokはYahooのルビ振りAPIを使っています。
