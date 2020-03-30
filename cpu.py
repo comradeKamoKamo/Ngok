@@ -52,7 +52,7 @@ def cpu(wordlog, c, cm, endList, c_kv) :
     try:
         word_vec = get_vec(c_kv, word[0])
         # 言われた言葉に似ている言葉を探す
-        sim = 1145141919
+        sim = 2
         r_word = wordlist[0]
         cnt = 0
         for wr in wordlist:
@@ -83,6 +83,10 @@ def get_vec(c_kv, surface):
     return np.array(r[1:])
 
 def get_similarity(vec1, vec2):
+    # 正則化
+    vec1 = vec1 / np.linalg.norm(vec1)
+    vec2 = vec2 / np.linalg.norm(vec2)
+    # ユークリッド距離
     diff = (vec1 - vec2) ** 2
     s = diff.sum()
     return np.sqrt(s)
