@@ -16,7 +16,7 @@ import cpu
 
 def main():
 
-    cm, endList, con, c, model = cpu.data_load()
+    cm, endList, con, c, con_kv, c_kv = cpu.data_load()
 
     api = get_api()
     players = []
@@ -55,7 +55,7 @@ def main():
             # 「しりとり」が含まれていたらリセットする
             if "しりとり" in text:
                 now_player.wordlog = [("しりとり","シリトリ")]
-                wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, model)
+                wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, c_kv)
                 if winning(api, wl, cm, now_player, players): continue
                 reply_to_status(api, 
                                 f"@{reply.author.screen_name} {get_word(wl[-1])}",
@@ -124,7 +124,7 @@ def main():
                     surface, kana = text, result
                 # CPUに渡す
                 now_player.wordlog.append( (surface, kana) )
-                wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, model)
+                wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, c_kv)
                 if winning(api, wl, cm, now_player, players): continue
                 tweet = f"@{reply.author.screen_name} {get_word(wl[-1])}"
                 if aimai_flag:
