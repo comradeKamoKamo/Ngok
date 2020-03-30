@@ -36,7 +36,6 @@ def main():
         for reply in replies:
             text = get_display_text(reply)
             if reply.author.screen_name == "_ngok_": continue # 自己ループを避ける
-            logging.info(f"@{reply.author.screen_name} : {text}")
             
             # ユーザーデータ取得
             now_player = [p for p in players if p.user_id == reply.author.id]
@@ -51,6 +50,7 @@ def main():
                 continue
             else:
                 now_player.status_id = reply.id
+                logging.info(f"@{reply.author.screen_name} (id: {reply.id}) : {text}")
             
             # 「しりとり」が含まれていたらリセットする
             if "しりとり" in text:
@@ -176,6 +176,7 @@ def reply_to_status(api, text, status_id):
     while True:
         try:
             api.update_status(text, in_reply_to_status_id=status_id)
+            logging.info(f"Replied {status_id} : {text}")
             break
         except tweepy.TweepError as e:
             logging.error(f"TweepError({e.api_code}): {e.reason}")
@@ -186,7 +187,7 @@ def reply_to_status(api, text, status_id):
                 # 制限
                 time.sleep(15*60) # 15分停止
                 continue
-            # それ以外も無視
+            # それ以外も無視nano
             break
            
 def winning(api, wl, cm, now_player, players):
@@ -194,11 +195,10 @@ def winning(api, wl, cm, now_player, players):
         if cm:
             # ユーザーの勝ち
             reply_to_status(api, f"@{now_player.screen_name} ンゴック君は何も思いつきません。あなたの勝ちです。", now_player.status_id)
-            players.remove(now_player)
         else:
             # ユーザーの負け
             reply_to_status(api, f"@{now_player.screen_name}「ン」で終わったのであなたの負けです。", now_player.status_id)
-            players.remove(now_player)       
+        [players.remove(p) for p in players if p.user_id == now_player.user_id]
     return wl is None
 
 def get_display_text(tweet):
@@ -226,5 +226,6 @@ class player:
         self.lasttime = time.time()
 
 if __name__=="__main__":
-    logging.basicConfig(level=logging.INFO)
+    fmt = "%(asctime)s %(levelname)s %(name)s :%(message)s"
+    logging.basicConfig(level=logging.INFO, format=fmt)
     main()

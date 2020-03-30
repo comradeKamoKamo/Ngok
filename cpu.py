@@ -3,10 +3,10 @@ import sys
 import pickle
 import sqlite3
 import copy
+import random
 
 import numpy as np
-from gensim.models import word2vec
-
+from gensim.models import KeyedVectors
 
 import words_analyze
 import parse_dic
@@ -49,6 +49,7 @@ def cpu(wordlog, c, cm, endList, model) :
         cm[end_index][r] = 0
         return cpu(wordlog, c, cm, endList, model)
 
+    
     try:
         word_vec = model.wv[word[0]]
         # 言われた言葉に似ている言葉を探す
@@ -66,11 +67,11 @@ def cpu(wordlog, c, cm, endList, model) :
     except:
         # 言われた言葉がword2vec未定義なら、
         # 候補の中で一番短い言葉を返す
-        wordlog.append(
-            sorted(wordlist, key=len)[0]
-        )
-
-
+        # ユーザービリティを考慮してちと乱数要素を入れる
+        lower_list = sorted(wordlist, key=lambda w: len(w[1]))
+        lowests = [w for w in lower_list if len(w[1]) - 2 <= len(lower_list[0][1])]
+        random.shuffle(lowests)
+        wordlog.append(lowests[0])
     return wordlog, cm
 
 def data_load():
@@ -78,13 +79,12 @@ def data_load():
     endList = pickle.load(open("output_21930/endList_clean.pickle", "rb"))
     con = sqlite3.connect("data/wordset.db")
     c = con.cursor()
-    model = word2vec.Word2Vec.load("data/word2vec/jawiki.model")
-    return cm, endList, con, c, model
+    model = KeyedVectors.load_word2vec_format("data/word2vec/jawiki_wf.kv", binary=True, limit=8000)
+    return cm, endList, con, c , model
 
 
 if __name__=="__main__" :
     cm, endList, con, c, model = data_load()
-
     wordlog = [("しりとり","シリトリ")]
     print("しりとり/シリトリ")
     while True:
