@@ -5,5 +5,5 @@ data/wikipedia
 *.pyc
 data/word2vec
 *.tmp
-*.pickle
+players.pickle
 apikey.sh
