@@ -55,6 +55,7 @@ def main():
             # 「しりとり」が含まれていたらリセットする
             if "しりとり" in text:
                 now_player.wordlog = [("しりとり","シリトリ")]
+                now_player.cm = copy.deepcopy(cm)
                 wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, c_kv)
                 if winning(api, wl, cm, now_player, players): continue
                 reply_to_status(api, 
