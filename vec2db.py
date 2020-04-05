@@ -1,10 +1,9 @@
 import sqlite3
 import logging
 import time
-import datetime
 
-WORD2VEC_TEXT = "data/word2vec/jawiki_kv.txt"
-DB_PATH = "data/word2vec/kv.db"
+WORD2VEC_TEXT = "data/word2vec/jawiki_normalized.kv.txt"
+DB_PATH = "data/word2vec/jawiki_normalized.kv.db"
 
 def return_column_names(n):
     if n >= 0:

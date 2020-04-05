@@ -52,13 +52,13 @@ def cpu(wordlog, c, cm, endList, c_kv) :
     try:
         word_vec = get_vec(c_kv, word[0])
         # 言われた言葉に似ている言葉を探す
-        sim = 2
+        sim = 0
         r_word = wordlist[0]
         cnt = 0
         for wr in wordlist:
             try:
                 s = get_similarity(word_vec, get_vec(c_kv, wr[0]))
-                if s < sim :
+                if s > sim :
                     sim = s
                     r_word = wr
                     cnt += 1
@@ -83,20 +83,20 @@ def get_vec(c_kv, surface):
     return np.array(r[1:])
 
 def get_similarity(vec1, vec2):
-    # 正則化
-    vec1 = vec1 / np.linalg.norm(vec1)
-    vec2 = vec2 / np.linalg.norm(vec2)
+    # vec1, vec2は事前正規化済みとして
     # ユークリッド距離
     diff = (vec1 - vec2) ** 2
-    s = diff.sum()
-    return np.sqrt(s)
+    d_2 = diff.sum()    # ユークリッド距離の二乗
+    # コサイン類似度に
+    cos_sim = (2 - d_2) / 2
+    return cos_sim
 
 def data_load():
     cm = np.load("output_21930/cm_clean.npy")
     endList = pickle.load(open("output_21930/endList_clean.pickle", "rb"))
     con = sqlite3.connect("data/wordset.db")
     c = con.cursor()
-    con_kv = sqlite3.connect("data/word2vec/kv.db")
+    con_kv = sqlite3.connect("data/word2vec/jawiki_normalized.kv.db")
     c_kv = con_kv.cursor()
     return cm, endList, con, c , con_kv, c_kv
 
