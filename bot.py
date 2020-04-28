@@ -16,7 +16,7 @@ import cpu
 
 def main():
 
-    cm, endList, con, c, con_kv, c_kv = cpu.data_load()
+    cm_origin, endList, con, c, con_kv, c_kv = cpu.data_load()
 
     api = get_api()
     players = []
@@ -41,9 +41,11 @@ def main():
             now_player = [p for p in players if p.user_id == reply.author.id]
             if not now_player :
                 # 未知のアカウント
-                now_player = [player(reply.author.id, reply.author.screen_name, cm)]
+                now_player = [player(reply.author.id, reply.author.screen_name, cm_origin)]
                 players.append(now_player[0])
             now_player = now_player[0]
+            # screen_nameは変わることがある
+            now_player.screen_name = reply.author.screen_name
 
             # リプライが最新のものでなければ無視
             if reply.id == now_player.status_id:
@@ -55,7 +57,7 @@ def main():
             # 「しりとり」が含まれていたらリセットする
             if "しりとり" in text:
                 now_player.wordlog = [("しりとり","シリトリ")]
-                now_player.cm = copy.deepcopy(cm)
+                now_player.cm = copy.deepcopy(cm_origin)
                 wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, c_kv)
                 if winning(api, wl, cm, now_player, players): continue
                 reply_to_status(api, 
@@ -126,7 +128,8 @@ def main():
                 # CPUに渡す
                 now_player.wordlog.append( (surface, kana) )
                 wl, cm = cpu.cpu(now_player.wordlog, c, now_player.cm, endList, c_kv)
-                if winning(api, wl, cm, now_player, players): continue
+                if winning(api, wl, cm, now_player, players): 
+                    continue
                 tweet = f"@{reply.author.screen_name} {get_word(wl[-1])}"
                 if aimai_flag:
                     tweet += "　※読みが正常に推定できませんでした。単語（タンゴ）の形で明示的に指定できます。"
